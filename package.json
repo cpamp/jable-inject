@@ -1,0 +1,23 @@
+{
+  "name": "js-injectable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpamp/js-injectable.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpamp/js-injectable/issues"
+  },
+  "homepage": "https://github.com/cpamp/js-injectable#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.27"
+  }
+}

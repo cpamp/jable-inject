@@ -1,5 +1,3 @@
-import { getName } from "./getName";
-
 export class InjectProvider {
     private static _instance: InjectProvider;
 
@@ -22,18 +20,17 @@ export class InjectProvider {
     /**
      * Get an instance of an injectable
      * 
-     * @param {Function} Class Type of instance to get
+     * @param {Function} namespacedInstance Namespaced instance to get
      * @returns Instance of injectable or null
      * 
      * @memberOf InjectProvider
      */
-    public get(Class: Function) {
-        var key = getName(Class);
-        if (this.injectables[key] != null) {
-            if (typeof this.injectables[key] === 'function') {
-                return this.injectables[key] = new (this.injectables[key])();
+    public get(namespacedInstance: string) {
+        if (this.injectables[namespacedInstance] != null) {
+            if (typeof this.injectables[namespacedInstance] === 'function') {
+                return this.injectables[namespacedInstance] = new (this.injectables[namespacedInstance])();
             }
-            return this.injectables[key];
+            return this.injectables[namespacedInstance];
         }
         return null;
     }

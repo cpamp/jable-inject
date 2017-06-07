@@ -19,5 +19,8 @@
   "homepage": "https://github.com/cpamp/js-injectable#readme",
   "devDependencies": {
     "@types/node": "^7.0.27"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.10"
   }
 }

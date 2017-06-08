@@ -1,6 +1,6 @@
 # js-injectable
 
-Decorate classes as Injectable to inject injectables and also injectable into other class constructors.
+Inject dependencies into injectable classes
 
 ## Example
 

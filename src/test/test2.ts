@@ -1,6 +1,6 @@
-import { Injectable } from "./injectable.decorator";
+import { Injectable } from "../injectable.decorator";
 import { Foo as DupeFoo } from "./test";
-import { Injector } from "./injector";
+import { Injector } from "../injector";
 
 @Injectable({
     namespace: 'New.Foo'

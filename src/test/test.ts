@@ -1,4 +1,4 @@
-import { Injectable } from "./injectable.decorator";
+import { Injectable } from "../injectable.decorator";
 
 
 @Injectable({namespace: "BooBoo"})

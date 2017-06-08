@@ -81,27 +81,22 @@ export function Injectable(options: IInjectableOptions = {}) {
  * @export
  * @interface IInjectableOptions
  * @property {string} namespace Namespace of the Injectable
- * @property {{[type: string]: string}} namespaced Namespaced dependencies and their namespace
- * @property {{[type: string]: boolean}} exclude Excluded namespaced types, true to exclude
+ * @property {{[type: string]: boolean}} exclude Excluded namespaced types for injection, true to exclude
+ * @property {boolean} inject Whether or not the class should have injectables injected into it
  */
 export interface IInjectableOptions {
     namespace?: string;
-    namespaced?: {[type: string]: string};
     exclude?: {[type: string]: boolean};
     inject?: boolean;
 }
 
 const defaultOptions: IInjectableOptions = {
     namespace: '',
-    namespaced: {},
     exclude: {
-        string: true,
         String: true,
-        number: true,
         Number: true,
-        object: true,
         Object: true,
-        boolean: true,
+        Array: true,
         Boolean: true
     },
     inject: true

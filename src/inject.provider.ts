@@ -53,7 +53,7 @@ export class InjectProvider {
      * Get an instance of an injectable
      * 
      * @template T Type of instance
-     * @param {{new(...args: any[]): T}} instanceType Namespaced instance to get
+     * @param {{new(...args: any[]): T}} instanceType Instance type to get
      * @returns Instance of injectable or null
      * 
      * @memberOf InjectProvider

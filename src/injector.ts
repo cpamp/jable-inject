@@ -7,11 +7,11 @@
  */
 export class Injector {
     /**
-     * New up a class decorated with Injectable
+     * Instantiate a class decorated with Injectable
      * 
      * @static
      * @template T Type of class
-     * @param {{new(...args: any[]): T}} newType The class to new up
+     * @param {{new(...args: any[]): T}} newType The class to instantiate
      * @param {...any[]} args Arguments, use for excluded injectables
      * @returns {T} New instance of T
      * 

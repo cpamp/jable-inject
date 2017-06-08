@@ -2,6 +2,11 @@ var Symbol = require('es6-symbol/polyfill');
 import { getName } from "./getName";
 import { NameProperty } from "./constants";
 
+/**
+ * A type that we can instantiate. Returns T
+ */
+export type NewableType<T> = {new(...args: any[]): T}
+
 export class InjectProvider {
     private static _instance: InjectProvider;
 
@@ -26,26 +31,34 @@ export class InjectProvider {
     /**
      * Check a class for a symbol id
      * 
-     * @param instanceType Class to check for Id
+     * @param {NewableType<any>} instanceType Class to check for Id
      * @returns {boolean}
      */
-    public hasId(instanceType: {new(...args: any[]): any}): boolean {
+    public hasId(instanceType: NewableType<any>): boolean {
         return this.getId(instanceType) != null;
     }
 
     /**
      * Get a classes symbol id
      * 
-     * @param {{new(...args: any[]): any}} instanceType Class to get symbol id for
+     * @param {NewableType<any>} instanceType Class to get symbol id for
      * @returns {Symbol} Symbol id of the class
      * 
      * @memberOf InjectProvider
      */
-    public getId(instanceType: {new(...args: any[]): any}): any {
+    public getId(instanceType: NewableType<any>): any {
         return (<any>instanceType)[this.SYMBOL_ID];
     }
 
-    public setName(namespace: string, instanceType: {new(...args: any[]): any}): void {
+    /**
+     * Set the name a of a newable type
+     * 
+     * @param {string} namespace Namespace to prepend
+     * @param {NewableType<any>} instanceType Newable instance type
+     * 
+     * @memberOf InjectProvider
+     */
+    public setName(namespace: string, instanceType: NewableType<any>): void {
         (<any>instanceType)[NameProperty] = (namespace != '' ? namespace + '.' : '') + getName(<any>instanceType);
     }
 
@@ -53,12 +66,12 @@ export class InjectProvider {
      * Get an instance of an injectable
      * 
      * @template T Type of instance
-     * @param {{new(...args: any[]): T}} instanceType Instance type to get
+     * @param {NewableType<any>} instanceType Instance type to get
      * @returns Instance of injectable or null
      * 
      * @memberOf InjectProvider
      */
-    public get<T>(instanceType: {new(...args: any[]): T}): T | null {
+    public get<T>(instanceType: NewableType<T>): T | null {
         var key = (<any>instanceType)[this.SYMBOL_ID];
         if (this.injectables[key] != null) {
             if (typeof this.injectables[key] === 'function') {
@@ -73,12 +86,12 @@ export class InjectProvider {
      * Register an injectable
      * 
      * @template T Type of injectable
-     * @param {{new(...args: any[]): T}} instanceType Instance type to create
+     * @param {NewableType<T>} instanceType Instance type to create
      * @param {Symbol?} key Unique ID for instance. Use when defining a new constructor for an existing injectable
      * 
      * @memberOf InjectProvider
      */
-    public register<T extends Function>(instanceType: {new(...args: any[]): T}, key?: any) {
+    public register<T extends Function>(instanceType: NewableType<T>, key?: any) {
         if (key == null) {
             key = (<any>instanceType)[this.SYMBOL_ID] || Symbol(getName(instanceType));
         }

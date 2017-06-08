@@ -32,7 +32,7 @@ function getParams(excludes: any, metadata: any) {
     return params;
 }
 
-function setupNewConstructor(originalConstructor: Function, newConstructor: Function) {
+function setupNewConstructorPrototype(originalConstructor: Function, newConstructor: Function) {
     newConstructor.prototype = Object.create(originalConstructor.prototype);
     Object.defineProperty(newConstructor, 'name', { value: getName(<any>originalConstructor), enumerable: false, writable: false });
 }
@@ -49,7 +49,7 @@ export function Inject(options: IInjectableOptions, constructor: Function) {
     var metadata = Reflect.getMetadata(ParamTypes, constructor);
     var params = getParams(options.exclude, metadata);
     var newConstructor = getNewConstructor(constructor, params);
-    setupNewConstructor(constructor, newConstructor);
+    setupNewConstructorPrototype(constructor, newConstructor);
 
     return <any>newConstructor;
 }

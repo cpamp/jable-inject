@@ -15,12 +15,10 @@ class Injecting {
 }
 
 var inj: Injecting = new (<any>Injecting)("string");
-console.log('prop', inj.foo.prop);
 console.log(inj.foo2.hello);
 console.log(inj.test);
 
 var inj2 = Injector.inject(Injecting, "goodbye", false);
-console.log(inj2.foo.prop);
 console.log(inj2.foo2.hello);
 console.log(inj2.test);
 console.log(inj2.test2);

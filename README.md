@@ -1,6 +1,6 @@
 # js-injectable
 
-Decore classes as Injectable to be injected into or injectable into other class constructors.
+Decorate classes as Injectable to inject injectables and also injectable into other class constructors.
 
 ## Options
 

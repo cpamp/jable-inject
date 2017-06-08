@@ -1,4 +1,3 @@
-import { Inject } from "./inject.decorator";
 import { Injectable } from "./injectable.decorator";
 import { Foo as DupeFoo } from "./test";
 import { Injector } from "./injector";
@@ -10,7 +9,7 @@ class Foo {
     constructor(public hello: string = 'world') { }
 }
 
-@Inject()
+@Injectable()
 class Injecting {
     constructor(public foo: DupeFoo, public foo2: Foo, public test: string, public test2: boolean) { }
 }

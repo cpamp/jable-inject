@@ -1,5 +1,4 @@
 import { Injectable } from "./injectable.decorator";
-import { Inject } from "./inject.decorator";
 
 
 @Injectable({namespace: "BooBoo"})
@@ -8,19 +7,17 @@ export class Bar {
 }
 
 @Injectable()
-@Inject()
 export class Foo {
     constructor(public prop: string = "myProp", public foo2: Bar) {}
 }
 
-@Inject()
 @Injectable()
 export class FinalInject {
     constructor(public foo: Foo) { }
 }
 
-@Inject({
-    exclude: { 'Boo.Bar': true }
+@Injectable({
+    exclude: { 'BooBoo.Bar': true }
 })
 class Injecting {
     constructor(public foo: FinalInject, public bar: Bar) {

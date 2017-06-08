@@ -4,6 +4,44 @@ import { getOptions } from "./getOptions";
 import { ParamTypes } from "./constants";
 import { getName } from "./getName";
 
+function getNewConstructor(constructor: Function, params: any[]) {
+    return function(...args: any[]) {
+        var newParams = params.slice(0);
+        for (var arg of args) {
+            for (var i = 0; i < newParams.length; i++) {
+                if (newParams[i] === void 0) {
+                    (<any>newParams)[i] = arg;
+                    break;
+                }
+            }
+        }
+        return constructor.apply(this, newParams);
+    }
+}
+
+function getParams(excludes: any, metadata: any) {
+    var params: any[] = [];
+    for (var meta of metadata) {
+        var key = getName(meta);
+            console.log("key: ", key);
+        if (excludes[key] !== true) {
+            params.push(InjectProvider.Instance.get(meta));
+        } else {
+            params.push(void 0);
+        }
+    }
+    return params;
+}
+
+function setupNewConstructor(originalConstructor: Function, newConstructor: Function) {
+    newConstructor.prototype = Object.create(originalConstructor.prototype);
+    Object.defineProperty(newConstructor, 'name', { value: getName(<any>originalConstructor), enumerable: false, writable: false });
+
+    if (InjectProvider.Instance.hasId(<any>originalConstructor)) {
+        InjectProvider.Instance.register(<any>newConstructor, InjectProvider.Instance.getId(<any>originalConstructor));
+    }
+}
+
 /**
  * Decorate a class as Inject to be injected with Injectables
  * 
@@ -13,37 +51,13 @@ import { getName } from "./getName";
  */
 export function Inject(options: IInjectOptions = {}) {
     options = getOptions(options, defaultOptions);
-    console.log(JSON.stringify(options));
+
     return function(constructor: Function) {
         var metadata = Reflect.getMetadata(ParamTypes, constructor);
-        console.log(metadata);
-        var params: string | null[] = [];
-        for (var meta of metadata) {
-            var key = getName(meta);
-            if ((<any>options.exclude)[key] !== true) {
-                params.push(InjectProvider.Instance.get(key));
-            } else {
-                params.push(null);
-            }
-        }
-        
-        var newConstructor = function(...args: any[]) {
-            console.log(args);
-            var newParams = params.slice(0);
-            for (var arg of args) {
-                for (var i = 0; i < newParams.length; i++) {
-                    if (newParams[i] === null) {
-                         (<any>newParams)[i] = arg;
-                         break;
-                    }
-                }
-            }
-            return constructor.apply(this, newParams);
-        }
-        newConstructor.prototype = Object.create(constructor.prototype);
+        var params = getParams(options.exclude, metadata);
+        var newConstructor = getNewConstructor(constructor, params);
 
-        Object.defineProperty(newConstructor, 'name', { value: (<any>constructor).name, enumerable: false, writable: false });
-
+        setupNewConstructor(constructor, newConstructor);
         return <any>newConstructor;
     }
 }
@@ -54,6 +68,7 @@ export function Inject(options: IInjectOptions = {}) {
  * @export
  * @interface IInjectOptions
  * @property {{[type: string]: string}} namespaced Namespaced dependencies and their namespace
+ * @property {{[type: string]: boolean}} exclude Excluded namespaced types, true to exclude
  */
 export interface IInjectOptions {
     namespaced?: {[type: string]: string},
@@ -64,8 +79,12 @@ const defaultOptions: IInjectOptions = {
     namespaced: {},
     exclude: {
         string: true,
+        String: true,
         number: true,
+        Number: true,
         object: true,
-        boolean: true
+        Object: true,
+        boolean: true,
+        Boolean: true
     }
 }

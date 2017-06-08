@@ -12,8 +12,8 @@ import { getOptions } from "./getOptions";
 export function Injectable(options: IInjectableOptions = {}) {
     options = getOptions(options, defaultOptions);
     return function(constructor: Function) {
-        var inject = InjectProvider.Instance;
-        inject.register(<string>options.namespace, (<any>constructor).name, <any>constructor);
+        InjectProvider.Instance.setName(<string>options.namespace, <any>constructor);
+        InjectProvider.Instance.register(<any>constructor);
     }
 }
 

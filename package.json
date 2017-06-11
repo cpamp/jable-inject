@@ -1,23 +1,23 @@
 {
-  "name": "js-injectable",
+  "name": "@jable/inject",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/js-injectable.git"
+    "url": "git+https://github.com/cpamp/jable-inject.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cpamp/js-injectable/issues"
+    "url": "https://github.com/cpamp/jable-inject/issues"
   },
-  "homepage": "https://github.com/cpamp/js-injectable#readme",
+  "homepage": "https://github.com/cpamp/jable-inject#readme",
   "devDependencies": {
     "@types/node": "^7.0.27"
   },

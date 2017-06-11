@@ -1,4 +1,4 @@
-# js-injectable
+# @jable/inject
 
 Inject dependencies into injectable classes
 

@@ -47,11 +47,15 @@ function setupNewConstructorPrototype(originalConstructor: Function, newConstruc
  */
 export function Inject(options: IInjectableOptions, constructor: Function) {
     var metadata = Reflect.getMetadata(ParamTypes, constructor);
-    var params = getParams(options.exclude, metadata);
-    var newConstructor = getNewConstructor(constructor, params);
-    setupNewConstructorPrototype(constructor, newConstructor);
+    if (metadata != null) {
+        var params = getParams(options.exclude, metadata);
+        var newConstructor = getNewConstructor(constructor, params);
+        setupNewConstructorPrototype(constructor, newConstructor);
 
-    return <any>newConstructor;
+        return <any>newConstructor;
+    } else {
+        return <any>constructor;
+    }
 }
 
 /**
